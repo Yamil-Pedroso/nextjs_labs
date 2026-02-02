@@ -60,13 +60,13 @@ export function NotificationsProvider({
   }, []);
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      enabledRef.current = false;
-      indexRef.current = 0;
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setNotifications([]);
-      return;
-    }
+    //if (!isAuthenticated) {
+    //  enabledRef.current = false;
+    //  indexRef.current = 0;
+    //  // eslint-disable-next-line react-hooks/set-state-in-effect
+    //  setNotifications([]);
+    //  return;
+    //}
 
     enabledRef.current = true;
 
@@ -94,23 +94,23 @@ export function NotificationsProvider({
   // React effect that runs whenever the authentication state changes
   useEffect(() => {
     // If the user is NOT authenticated (logout or initial state)
-    if (!isAuthenticated) {
-      // Reset the "welcome already shown" flag
-      // so the welcome can appear again on the next login
-      welcomeShownRef.current = false;
-
-      // If there is a pending welcome timeout
-      if (welcomeTimeoutRef.current) {
-        // Cancel the scheduled welcome notification
-        clearTimeout(welcomeTimeoutRef.current);
-
-        // Clear the stored timeout reference
-        welcomeTimeoutRef.current = null;
-      }
-
-      // Exit the effect early (nothing else should run when logged out)
-      return;
-    }
+    //if (!isAuthenticated) {
+    //  // Reset the "welcome already shown" flag
+    //  // so the welcome can appear again on the next login
+    //  welcomeShownRef.current = false;
+    //
+    //  // If there is a pending welcome timeout
+    //  if (welcomeTimeoutRef.current) {
+    //    // Cancel the scheduled welcome notification
+    //    clearTimeout(welcomeTimeoutRef.current);
+    //
+    //    // Clear the stored timeout reference
+    //    welcomeTimeoutRef.current = null;
+    //  }
+    //
+    //  // Exit the effect early (nothing else should run when logged out)
+    //  return;
+    //}
 
     // If the welcome notification was already scheduled or shown,
     // do nothing (prevents duplicates and Strict Mode double execution)

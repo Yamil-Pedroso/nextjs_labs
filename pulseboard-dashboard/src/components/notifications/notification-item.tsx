@@ -6,7 +6,7 @@ export function NotificationItem({
   notification: Notification;
 }) {
   const colors = {
-    welcome: "border-purple-400 text-purple-400",
+    welcome: "border-[rgb(var(--primary))] text-[rgb(var(--primary))]",
     success: "border-green-400 text-green-400",
     info: "border-blue-400 text-blue-400",
     error: "border-red-400 text-red-400",
