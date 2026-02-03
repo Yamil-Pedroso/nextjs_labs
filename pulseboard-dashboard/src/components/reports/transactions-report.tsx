@@ -1,57 +1,37 @@
-interface Transaction {
-  id: string;
-  user: string;
-  email: string;
-  amount: number;
-  currency: "USD" | "EUR" | "CHF";
-  status: "success" | "pending" | "failed";
-  date: string;
-}
+"use client";
 
-const TRANSACTIONS: Transaction[] = [
-  {
-    id: "tx_001",
-    user: "John Doe",
-    email: "john@example.com",
-    amount: 29,
-    currency: "CHF",
-    status: "success",
-    date: "2026-02-01",
-  },
-  {
-    id: "tx_002",
-    user: "Anna Smith",
-    email: "anna@example.com",
-    amount: 99,
-    currency: "CHF",
-    status: "pending",
-    date: "2026-01-30",
-  },
-  {
-    id: "tx_003",
-    user: "Carlos Vega",
-    email: "carlos@example.com",
-    amount: 29,
-    currency: "EUR",
-    status: "failed",
-    date: "2026-01-28",
-  },
-];
+import { exportTransactionsCSV, exportTransactionsPDF } from "@/lib/export";
+import { TRANSACTIONS } from "@/lib/transaction-types";
 
 export function TransactionsReport() {
   return (
     <div
-      className="
-        rounded-xl border border-[rgb(var(--border))]
-        bg-[rgb(var(--card))]
-        p-6
-      "
+      id="transactions-report"
+      className="rounded-xl border border-[rgb(var(--border))] bg-[rgb(var(--card))] p-6"
     >
-      <div className="mb-4">
-        <h3 className="font-semibold">Transactions</h3>
-        <p className="text-sm text-[rgb(var(--muted))]">
-          Complete transaction history.
-        </p>
+      <div className="mb-4 flex items-center justify-between">
+        <div>
+          <h3 className="font-semibold">Transactions</h3>
+          <p className="text-sm text-[rgb(var(--muted))]">
+            Complete transaction history.
+          </p>
+        </div>
+
+        <div className="flex gap-2">
+          <button
+            onClick={() => exportTransactionsCSV(TRANSACTIONS)}
+            className="rounded-lg border border-[rgb(var(--border))] px-3 py-1.5 text-sm hover:bg-[rgb(var(--border))]/40 transition"
+          >
+            Export CSV
+          </button>
+
+          <button
+            onClick={() => exportTransactionsPDF(TRANSACTIONS)}
+            className="rounded-lg bg-[rgb(var(--primary))] px-3 py-1.5 text-sm font-medium text-black hover:opacity-90 transition"
+          >
+            Export PDF
+          </button>
+        </div>
       </div>
 
       <div className="overflow-x-auto">

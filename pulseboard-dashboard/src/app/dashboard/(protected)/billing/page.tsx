@@ -4,6 +4,38 @@
 import { PlanCard } from "@/components/plan-card";
 import { PLANS } from "@/lib/plans";
 import { usePlan } from "@/hooks/use-plan";
+import type { Transaction } from "@/lib/transaction-types";
+import { RecentTransactions } from "@/components/billing/recent-transactions";
+
+const TRANSACTIONS: Transaction[] = [
+  {
+    id: "tx_001",
+    user: "John Doe",
+    email: "john@example.com",
+    amount: 30,
+    currency: "CHF",
+    status: "success",
+    date: "2026-02-01",
+  },
+  {
+    id: "tx_002",
+    user: "Anna Smith",
+    email: "anna@example.com",
+    amount: 99,
+    currency: "CHF",
+    status: "pending",
+    date: "2026-01-30",
+  },
+  {
+    id: "tx_003",
+    user: "Carlos Vega",
+    email: "carlos@example.com",
+    amount: 29,
+    currency: "EUR",
+    status: "failed",
+    date: "2026-01-28",
+  },
+];
 
 export default function BillingPage() {
   const { plan, selectPlan } = usePlan();
@@ -26,6 +58,8 @@ export default function BillingPage() {
           />
         ))}
       </div>
+
+      <RecentTransactions transactions={TRANSACTIONS} />
     </section>
   );
 }
