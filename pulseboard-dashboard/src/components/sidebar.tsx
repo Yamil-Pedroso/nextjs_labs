@@ -10,6 +10,8 @@ import {
   UsersIcon,
   Cog6ToothIcon,
   CreditCardIcon,
+  DocumentChartBarIcon,
+  ClockIcon,
 } from "@heroicons/react/24/outline";
 import { FaWandMagicSparkles } from "react-icons/fa6";
 
@@ -37,6 +39,8 @@ export function Sidebar() {
   const postAuth: NavItem[] = [
     { name: "Overview", href: "/dashboard/overview", icon: HomeIcon },
     { name: "Analytics", href: "/dashboard/analytics", icon: ChartBarIcon },
+    { name: "Reports", href: "/dashboard/reports", icon: DocumentChartBarIcon },
+    { name: "Activity", href: "/dashboard/activity", icon: ClockIcon },
     { name: "Users", href: "/dashboard/users", icon: UsersIcon },
     { name: "Billing", href: "/dashboard/billing", icon: CreditCardIcon },
     { name: "Settings", href: "/dashboard/settings", icon: Cog6ToothIcon },
