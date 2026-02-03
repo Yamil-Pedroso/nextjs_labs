@@ -1,5 +1,6 @@
+"use client";
+
 import {
-  //DocumentArrowDownIcon,
   DocumentChartBarIcon,
   CurrencyDollarIcon,
   UsersIcon,
@@ -9,8 +10,8 @@ import { RevenueReport } from "@/components/reports/revenue-report";
 import { UsersReport } from "@/components/reports/users-report";
 import { ActivityReport } from "@/components/reports/activity-report";
 import { TransactionsReport } from "@/components/reports/transactions-report";
-
 import { InsightsPanel } from "@/components/reports/insights-panel";
+import { motion } from "framer-motion";
 
 interface Report {
   id: string;
@@ -53,23 +54,55 @@ const reportLinks: Record<string, string> = {
   transactions: "#transactions-report",
 };
 
+const pageVariants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.45,
+      ease: "easeOut",
+      when: "beforeChildren",
+      staggerChildren: 0.08,
+    },
+  },
+} as const;
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.35, ease: "easeOut" },
+  },
+} as const;
+
 export default function ReportsPage() {
   return (
-    <section className="p-6 lg:p-8 space-y-8">
-      <div>
+    <motion.section
+      variants={pageVariants}
+      initial="hidden"
+      animate="visible"
+      className="p-6 lg:p-8 space-y-8"
+    >
+      <motion.div variants={itemVariants}>
         <h1 className="text-2xl font-semibold">Reports</h1>
         <p className="mt-1 text-sm text-[rgb(var(--muted))]">
           Generate and export detailed reports.
         </p>
-      </div>
+      </motion.div>
 
-      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+      <motion.div
+        variants={itemVariants}
+        className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3"
+      >
         {REPORTS.map((report) => {
           const Icon = report.icon;
 
           return (
-            <div
+            <motion.div
               key={report.id}
+              variants={itemVariants}
               className="
                 rounded-xl border border-[rgb(var(--border))]
                 bg-[rgb(var(--card))]
@@ -112,12 +145,13 @@ export default function ReportsPage() {
                   </a>
                 )}
               </div>
-            </div>
+            </motion.div>
           );
         })}
-      </div>
+      </motion.div>
 
-      <div
+      <motion.div
+        variants={itemVariants}
         className="
           rounded-xl border border-dashed border-[rgb(var(--border))]
           bg-[rgb(var(--card))]
@@ -128,12 +162,18 @@ export default function ReportsPage() {
         <p className="mt-1 text-sm text-[rgb(var(--muted))]">
           AI-powered insights and smart alerts will appear here once enabled.
         </p>
-      </div>
-      <InsightsPanel />
-      <RevenueReport />
-      <UsersReport />
-      <ActivityReport />
-      <TransactionsReport />
-    </section>
+      </motion.div>
+
+      <motion.div variants={itemVariants}>
+        <InsightsPanel />
+      </motion.div>
+
+      <motion.div variants={itemVariants}>
+        <RevenueReport />
+        <UsersReport />
+        <ActivityReport />
+        <TransactionsReport />
+      </motion.div>
+    </motion.section>
   );
 }

@@ -14,6 +14,30 @@ import {
 } from "@heroicons/react/24/outline";
 import { SystemStatus } from "@/components/system-status";
 import { AccountSummary } from "@/components/account-summary";
+import { motion } from "framer-motion";
+
+const pageVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.45,
+      ease: "easeOut",
+      when: "beforeChildren",
+      staggerChildren: 0.08,
+    },
+  },
+} as const;
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.35, ease: "easeOut" },
+  },
+} as const;
 
 export default function OverviewPage() {
   const { data, isLoading } = useDashboardStats();
@@ -32,12 +56,24 @@ export default function OverviewPage() {
   }
 
   return (
-    <section className="px-4 py-4 sm:p-6 space-y-6">
-      <h2 className="text-lg sm:text-xl font-semibold text-[rgb(var(--text))]">
+    <motion.section
+      variants={pageVariants}
+      initial="hidden"
+      animate="visible"
+      className="px-4 py-4 sm:p-6 space-y-6"
+    >
+      <motion.h2
+        variants={itemVariants}
+        className="text-lg sm:text-xl font-semibold text-[rgb(var(--text))]"
+      >
         Dashboard Overview
-      </h2>
+      </motion.h2>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {/* Stats */}
+      <motion.div
+        variants={itemVariants}
+        className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
+      >
         <StatCard
           title="Revenue"
           value={`$${data!.revenue.toLocaleString()}`}
@@ -58,9 +94,13 @@ export default function OverviewPage() {
           value={data!.sessions.toLocaleString()}
           icon={<ChartBarIcon className="h-5 w-5 sm:h-6 sm:w-6" />}
         />
-      </div>
+      </motion.div>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 items-stretch">
+      {/* Main content */}
+      <motion.div
+        variants={itemVariants}
+        className="grid grid-cols-1 gap-4 lg:grid-cols-3 items-stretch"
+      >
         <div className="lg:col-span-2 flex h-full flex-col gap-4">
           <AnalyticsCard />
           <QuickActions />
@@ -76,7 +116,7 @@ export default function OverviewPage() {
             <AccountSummary />
           </div>
         </div>
-      </div>
-    </section>
+      </motion.div>
+    </motion.section>
   );
 }
