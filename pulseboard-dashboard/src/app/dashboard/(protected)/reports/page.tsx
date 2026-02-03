@@ -6,6 +6,7 @@ import {
   ArrowPathIcon,
 } from "@heroicons/react/24/outline";
 import { TransactionsReport } from "@/components/reports/transactions-report";
+import { InsightsPanel } from "@/components/reports/insights-panel";
 
 interface Report {
   id: string;
@@ -145,7 +146,7 @@ export default function ReportsPage() {
           AI-powered insights and smart alerts will appear here once enabled.
         </p>
       </div>
-
+      <InsightsPanel />
       <TransactionsReport />
     </section>
   );
