@@ -39,7 +39,7 @@ const TRANSACTIONS: Transaction[] = [
 ];
 
 const pageVariants = {
-  hidden: { opacity: 0, y: 12 },
+  hidden: { opacity: 0, y: 15 },
   visible: {
     opacity: 1,
     y: 0,
