@@ -1,104 +1,78 @@
+"use client";
+
+import { useInsights } from "@/hooks/use-insights";
 import {
   ExclamationTriangleIcon,
-  ArrowTrendingDownIcon,
+  InformationCircleIcon,
   CheckCircleIcon,
 } from "@heroicons/react/24/outline";
 
-interface Insight {
-  id: string;
-  title: string;
-  description: string;
-  type: "info" | "warning" | "success";
-}
+const ICONS = {
+  warning: ExclamationTriangleIcon,
+  info: InformationCircleIcon,
+  success: CheckCircleIcon,
+};
 
-const INSIGHTS: Insight[] = [
-  {
-    id: "revenue-drop",
-    title: "Revenue decrease detected",
-    description:
-      "Revenue dropped by 18% compared to the previous period. The decrease correlates with a lower transaction volume.",
-    type: "warning",
-  },
-  {
-    id: "failed-payments",
-    title: "Increase in failed payments",
-    description:
-      "Failed transactions increased by 12% this week. Consider reviewing payment methods or retry logic.",
-    type: "info",
-  },
-  {
-    id: "stable-growth",
-    title: "User payments remain stable",
-    description:
-      "Successful payments remained stable over the last 14 days, indicating healthy billing performance.",
-    type: "success",
-  },
-];
-
-function getInsightStyles(type: Insight["type"]) {
-  switch (type) {
-    case "warning":
-      return {
-        icon: ArrowTrendingDownIcon,
-        color: "text-yellow-400",
-        bg: "bg-yellow-400/10",
-      };
-    case "success":
-      return {
-        icon: CheckCircleIcon,
-        color: "text-[rgb(var(--success))]",
-        bg: "bg-[rgb(var(--success))]/10",
-      };
-    default:
-      return {
-        icon: ExclamationTriangleIcon,
-        color: "text-blue-400",
-        bg: "bg-blue-400/10",
-      };
-  }
-}
+const COLORS = {
+  warning: "text-yellow-400 bg-yellow-400/10",
+  info: "text-blue-400 bg-blue-400/10",
+  success: "text-[rgb(var(--success))] bg-[rgb(var(--success))]/10",
+};
 
 export function InsightsPanel() {
-  return (
-    <div
-      className="
-        rounded-xl border border-[rgb(var(--border))]
-        bg-[rgb(var(--card))]
-        p-6 space-y-4
-      "
-    >
-      <div>
-        <h3 className="font-semibold">Insights</h3>
+  const { data, loading, error } = useInsights();
+
+  if (loading) {
+    return (
+      <div className="rounded-xl border border-[rgb(var(--border))] bg-[rgb(var(--card))] p-6">
+        <p className="text-sm text-[rgb(var(--muted))]">Analyzing data…</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="rounded-xl border border-red-500/30 bg-red-500/5 p-6 text-sm text-red-400">
+        {error}
+      </div>
+    );
+  }
+
+  if (!data.length) {
+    return (
+      <div className="rounded-xl border border-[rgb(var(--border))] bg-[rgb(var(--card))] p-6">
         <p className="text-sm text-[rgb(var(--muted))]">
-          Automated analysis based on recent activity.
+          No insights available.
         </p>
       </div>
+    );
+  }
 
-      <div className="space-y-3">
-        {INSIGHTS.map((insight) => {
-          const styles = getInsightStyles(insight.type);
-          const Icon = styles.icon;
+  return (
+    <div className="space-y-4">
+      {data.map((insight) => {
+        const Icon = ICONS[insight.type];
 
-          return (
+        return (
+          <div
+            key={insight.id}
+            className="flex gap-4 rounded-xl border border-[rgb(var(--border))] bg-[rgb(var(--card))] p-4"
+          >
             <div
-              key={insight.id}
-              className={`
-                flex gap-4 rounded-lg border border-[rgb(var(--border))]/50
-                p-4 ${styles.bg}
-              `}
+              className={`flex h-9 w-9 items-center justify-center rounded-lg ${COLORS[insight.type]}`}
             >
-              <Icon className={`h-5 w-5 mt-0.5 ${styles.color}`} />
-
-              <div>
-                <div className="font-medium">{insight.title}</div>
-                <p className="text-sm text-[rgb(var(--muted))]">
-                  {insight.description}
-                </p>
-              </div>
+              <Icon className="h-5 w-5" />
             </div>
-          );
-        })}
-      </div>
+
+            <div>
+              <h4 className="text-sm font-medium">{insight.title}</h4>
+              <p className="mt-1 text-sm text-[rgb(var(--muted))]">
+                {insight.description}
+              </p>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }

@@ -1,11 +1,15 @@
 import {
-  DocumentArrowDownIcon,
+  //DocumentArrowDownIcon,
   DocumentChartBarIcon,
   CurrencyDollarIcon,
   UsersIcon,
   ArrowPathIcon,
 } from "@heroicons/react/24/outline";
+import { RevenueReport } from "@/components/reports/revenue-report";
+import { UsersReport } from "@/components/reports/users-report";
+import { ActivityReport } from "@/components/reports/activity-report";
 import { TransactionsReport } from "@/components/reports/transactions-report";
+
 import { InsightsPanel } from "@/components/reports/insights-panel";
 
 interface Report {
@@ -29,7 +33,7 @@ const REPORTS: Report[] = [
     icon: UsersIcon,
   },
   {
-    id: "sessions",
+    id: "activity",
     title: "Activity Report",
     description: "Sessions, activity and engagement.",
     icon: ArrowPathIcon,
@@ -41,6 +45,13 @@ const REPORTS: Report[] = [
     icon: DocumentChartBarIcon,
   },
 ];
+
+const reportLinks: Record<string, string> = {
+  revenue: "#revenue-report",
+  users: "#users-report",
+  activity: "#activity-report",
+  transactions: "#transactions-report",
+};
 
 export default function ReportsPage() {
   return (
@@ -85,9 +96,9 @@ export default function ReportsPage() {
               </div>
 
               <div className="mt-6 flex gap-3">
-                {report.id === "transactions" ? (
+                {reportLinks[report.id] && (
                   <a
-                    href="#transactions-report"
+                    href={reportLinks[report.id]}
                     className="
                       flex-1 inline-flex items-center justify-center gap-2
                       rounded-lg bg-[rgb(var(--primary))]
@@ -99,34 +110,6 @@ export default function ReportsPage() {
                     <DocumentChartBarIcon className="h-4 w-4" />
                     View report
                   </a>
-                ) : (
-                  <>
-                    <button
-                      className="
-                        flex-1 inline-flex items-center justify-center gap-2
-                        rounded-lg border border-[rgb(var(--border))]
-                        px-4 py-2 text-sm
-                        hover:bg-[rgb(var(--border))]/40
-                        transition
-                      "
-                    >
-                      <DocumentArrowDownIcon className="h-4 w-4" />
-                      CSV
-                    </button>
-
-                    <button
-                      className="
-                        flex-1 inline-flex items-center justify-center gap-2
-                        rounded-lg bg-[rgb(var(--primary))]
-                        px-4 py-2 text-sm font-medium text-black
-                        hover:opacity-90
-                        transition
-                      "
-                    >
-                      <DocumentArrowDownIcon className="h-4 w-4" />
-                      PDF
-                    </button>
-                  </>
                 )}
               </div>
             </div>
@@ -147,6 +130,9 @@ export default function ReportsPage() {
         </p>
       </div>
       <InsightsPanel />
+      <RevenueReport />
+      <UsersReport />
+      <ActivityReport />
       <TransactionsReport />
     </section>
   );

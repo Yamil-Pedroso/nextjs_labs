@@ -13,7 +13,7 @@ import {
   DocumentChartBarIcon,
   ClockIcon,
 } from "@heroicons/react/24/outline";
-import { FaWandMagicSparkles } from "react-icons/fa6";
+//import { FaWandMagicSparkles } from "react-icons/fa6";
 
 interface NavItem {
   name: string;
@@ -23,18 +23,18 @@ interface NavItem {
 
 export function Sidebar() {
   const pathname = usePathname();
-  const { isAuthenticated } = useAuth();
-
-  const preAuth: NavItem[] = [
-    { name: "Welcome", href: "/dashboard/welcome" },
-    { name: "Login", href: "/dashboard/login" },
-    { name: "Register", href: "/dashboard/register" },
-    {
-      name: "Shadowpass to Dashboard",
-      href: "/dashboard",
-      icon: FaWandMagicSparkles,
-    },
-  ];
+  //const { isAuthenticated } = useAuth();
+  //
+  //const preAuth: NavItem[] = [
+  //  { name: "Welcome", href: "/dashboard/welcome" },
+  //  { name: "Login", href: "/dashboard/login" },
+  //  { name: "Register", href: "/dashboard/register" },
+  //  {
+  //    name: "Shadowpass to Dashboard",
+  //    href: "/dashboard",
+  //    icon: FaWandMagicSparkles,
+  //  },
+  //];
 
   const postAuth: NavItem[] = [
     { name: "Overview", href: "/dashboard/overview", icon: HomeIcon },
@@ -46,7 +46,8 @@ export function Sidebar() {
     { name: "Settings", href: "/dashboard/settings", icon: Cog6ToothIcon },
   ];
 
-  const nav = isAuthenticated ? postAuth : preAuth;
+  //const nav = isAuthenticated ? postAuth : preAuth;
+  const nav = postAuth;
 
   return (
     <aside className="flex h-screen w-64 flex-col border-r border-[rgb(var(--border))] p-4">
