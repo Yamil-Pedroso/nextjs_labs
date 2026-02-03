@@ -1,6 +1,12 @@
 import express from "express";
 import cors from "cors";
+import path from "path";
 import insightsRoute from "./routes/insightsRoute";
+import dotenv from "dotenv";
+
+dotenv.config({
+  path: path.resolve(__dirname, "../config/config.env"),
+});
 
 export const app = express();
 
