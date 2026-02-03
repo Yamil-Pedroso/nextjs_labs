@@ -1,9 +1,15 @@
 import axios from "axios";
 
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  (process.env.NODE_ENV === "development"
+    ? "http://localhost:3010/api/v1"
+    : undefined);
+
+if (!API_URL) {
+  throw new Error("Missing NEXT_PUBLIC_API_URL");
+}
+
 export const apiClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:3010/api/v1",
-  timeout: 10000,
-  headers: {
-    "Content-Type": "application/json",
-  },
+  baseURL: API_URL,
 });
