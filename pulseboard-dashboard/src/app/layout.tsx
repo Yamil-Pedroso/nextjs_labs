@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/providers/theme-provider";
 import { AuthProvider } from "@/providers/auth-provider";
 import { NotificationsProvider } from "@/providers/notifications-provider";
 import { NotificationsContainer } from "@/components/notifications/notifications-container";
+import { ProjectStatusModal } from "@/components/common/project-status-modal";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,6 +39,7 @@ export default function RootLayout({
               <NotificationsProvider>
                 <div className="min-h-screen bg-[rgb(var(--bg))] text-[rgb(var(--text))]">
                   {children}
+                  <ProjectStatusModal />
                 </div>
                 <NotificationsContainer />
               </NotificationsProvider>
