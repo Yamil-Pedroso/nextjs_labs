@@ -1,0 +1,46 @@
+import { Request, Response } from "express";
+import { pool } from "../../config/db";
+import { Transaction } from "../../models/transaction.model";
+
+export async function getTransactionsReport(_req: Request, res: Response) {
+  try {
+    const result = await pool.query(`
+      SELECT
+        t.id,
+        u.email,
+        t.amount,
+        t.currency,
+        t.status,
+        t.created_at
+      FROM transactions t
+      JOIN users u ON u.id = t.user_id
+      ORDER BY t.created_at DESC
+      LIMIT 20
+    `);
+
+    const transactions: Transaction[] = result.rows.map((row) => {
+      const name = row.email.split("@")[0];
+
+      return {
+        id: row.id,
+        user: name
+          .split(".")
+          .map((p: string) => p.charAt(0).toUpperCase() + p.slice(1))
+          .join(" "),
+        email: row.email,
+        amount: row.amount,
+        currency: row.currency,
+        status: row.status,
+        date: row.created_at.toISOString().split("T")[0],
+      };
+    });
+
+    res.json({
+      status: "success",
+      data: transactions,
+    });
+  } catch (error) {
+    console.error("Transactions controller error:", error);
+    res.status(500).json({ error: "Failed to load transactions report" });
+  }
+}
