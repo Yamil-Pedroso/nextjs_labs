@@ -1,22 +1,22 @@
-export type Plan = "basic" | "standard" | "pro";
+export type Plan = "free" | "pro" | "enterprise";
 
 export const PLANS = {
-  basic: {
-    name: "Basic",
-    price: "8 CHF",
+  free: {
+    name: "Free",
+    price: "0 CHF",
     description: "For individuals",
-    features: ["Up to 3 users", "Basic analytics", "Email support"],
-  },
-  standard: {
-    name: "Standard",
-    price: "19 CHF",
-    description: "For small teams",
-    features: ["Up to 10 users", "Advanced analytics", "Priority support"],
+    features: ["Basic analytics", "Community support"],
   },
   pro: {
     name: "Pro",
     price: "29 CHF",
-    description: "For growing businesses",
-    features: ["Unlimited users", "Full analytics", "Dedicated support"],
+    description: "For growing teams",
+    features: ["Advanced analytics", "Priority support"],
+  },
+  enterprise: {
+    name: "Enterprise",
+    price: "99 CHF",
+    description: "For large organizations",
+    features: ["Full analytics", "Dedicated support", "Custom features"],
   },
 };

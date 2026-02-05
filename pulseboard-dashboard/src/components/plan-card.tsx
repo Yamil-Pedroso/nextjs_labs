@@ -1,11 +1,12 @@
 interface PlanCardProps {
-  name: string;
-  price: string;
-  description: string;
-  features: string[];
-  selected: boolean;
-  onSelect: () => void;
+  name?: string;
+  price?: string;
+  description?: string;
+  features?: string[];
+  selected?: boolean;
+  onSelect?: () => void;
   highlighted?: boolean;
+  loading?: boolean;
 }
 
 export function PlanCard({
@@ -15,6 +16,7 @@ export function PlanCard({
   features,
   selected,
   onSelect,
+  loading = false,
   highlighted,
 }: PlanCardProps) {
   return (
@@ -35,7 +37,7 @@ export function PlanCard({
       </div>
 
       <ul className="mb-6 space-y-2 text-sm">
-        {features.map((f) => (
+        {features?.map((f) => (
           <li key={f} className="flex items-center gap-2">
             <span className="text-[rgb(var(--primary))]">✔</span>
             {f}
@@ -45,15 +47,15 @@ export function PlanCard({
 
       <button
         onClick={onSelect}
-        disabled={selected}
+        disabled={selected || loading}
         className={`mt-auto w-full rounded-lg px-4 py-2 text-sm font-medium transition
-          ${
-            selected
-              ? "bg-[rgb(var(--border))] text-[rgb(var(--muted))] cursor-not-allowed"
-              : "bg-[rgb(var(--primary))] text-black hover:opacity-90"
-          }`}
+    ${
+      selected
+        ? "bg-[rgb(var(--border))] text-[rgb(var(--muted))] cursor-not-allowed"
+        : "bg-[rgb(var(--primary))] text-black hover:opacity-90"
+    }`}
       >
-        {selected ? "Current Plan" : "Choose Plan"}
+        {loading ? "Redirecting…" : selected ? "Current Plan" : "Choose Plan"}
       </button>
     </div>
   );

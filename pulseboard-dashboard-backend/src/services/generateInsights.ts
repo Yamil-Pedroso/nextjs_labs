@@ -1,17 +1,11 @@
 import openai from "./openai";
 import type { Insight } from "../types/insight";
 
-interface MetricsSnapshot {
-  current_period: {
-    revenue: number;
-    transactions: number;
-    failed_payments: number;
-  };
-  previous_period: {
-    revenue: number;
-    transactions: number;
-    failed_payments: number;
-  };
+export interface MetricsSnapshot {
+  type: string; // "revenue" | "activity" | "users" | "transactions" | future
+  period: string;
+  current_period: Record<string, number>;
+  previous_period: Record<string, number>;
 }
 
 export async function generateInsights(
@@ -26,9 +20,15 @@ Rules:
 - Do NOT include backticks
 - Do NOT include explanations or text outside JSON
 
+Context:
+- You will receive a metrics snapshot describing a specific analytics domain.
+- The snapshot includes a "type" field that defines what kind of metrics you are analyzing
+  (e.g. revenue, activity, users, transactions).
+
 Your task:
-- Analyze transaction metrics
-- Detect anomalies, trends, or risks
+- Analyze the provided metrics strictly based on the data
+- Detect trends, anomalies, risks, or opportunities
+- Compare current_period vs previous_period
 - Be concise, professional, and actionable
 
 Output format:
