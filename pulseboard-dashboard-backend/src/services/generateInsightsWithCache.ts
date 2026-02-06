@@ -2,7 +2,6 @@ import { pool } from "../config/db";
 import { hashSnapshot } from "../utils/hashSnapshot";
 import { generateInsights } from "./generateInsights";
 import type { MetricsSnapshot } from "./generateInsights";
-import type { Insight } from "../types/insight";
 import { getCachedInsights } from "./insightsCache.service";
 
 export async function generateInsightsWithCache(snapshot: MetricsSnapshot) {
