@@ -42,6 +42,12 @@ export function Sidebar() {
     { name: "Reports", href: "/dashboard/reports", icon: DocumentChartBarIcon },
     { name: "Activity", href: "/dashboard/activity", icon: ClockIcon },
     { name: "Users", href: "/dashboard/users", icon: UsersIcon },
+    { name: "Revenue", href: "/dashboard/revenue", icon: CreditCardIcon },
+    {
+      name: "Transactions",
+      href: "/dashboard/transactions",
+      icon: CreditCardIcon,
+    },
     { name: "Billing", href: "/dashboard/billing", icon: CreditCardIcon },
     { name: "Settings", href: "/dashboard/settings", icon: Cog6ToothIcon },
   ];
