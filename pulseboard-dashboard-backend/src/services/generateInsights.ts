@@ -48,7 +48,7 @@ ${JSON.stringify(metrics, null, 2)}
 
   const completion = await openai.chat.completions.create({
     model: "gpt-4o-mini",
-    temperature: 0.3,
+    temperature: 0,
     messages: [
       { role: "system", content: systemPrompt },
       { role: "user", content: userPrompt },

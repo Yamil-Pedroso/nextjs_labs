@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { pool } from "../../config/db";
-import { generateInsights } from "../../services/generateInsights";
+import { generateInsightsWithCache } from "../../services/generateInsightsWithCache";
+
 import type { ActivitySnapshot } from "../../types/activity";
 
 export async function getActivityInsights(_req: Request, res: Response) {
@@ -117,7 +118,7 @@ export async function getActivityInsights(_req: Request, res: Response) {
     };
 
     // 🤖 IA analyzes snapshot
-    const insights = await generateInsights(snapshot);
+    const insights = await generateInsightsWithCache(snapshot);
 
     res.json({
       snapshot,

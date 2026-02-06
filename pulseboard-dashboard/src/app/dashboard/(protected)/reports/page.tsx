@@ -12,6 +12,7 @@ import { ActivityReport } from "@/components/reports/activity-report";
 import { TransactionsReport } from "@/components/reports/transactions-report";
 import { InsightsPanel } from "@/components/reports/insights-panel";
 import { motion } from "framer-motion";
+import { useProducts } from "@/hooks/use-products";
 
 interface Report {
   id: string;
@@ -78,6 +79,8 @@ const itemVariants = {
 } as const;
 
 export default function ReportsPage() {
+  const { data: products, isLoading, error } = useProducts();
+
   return (
     <motion.section
       variants={pageVariants}
@@ -90,6 +93,19 @@ export default function ReportsPage() {
         <p className="mt-1 text-sm text-[rgb(var(--muted))]">
           Generate and export detailed reports.
         </p>
+
+        {isLoading && <p>Loading products...</p>}
+        {error && <p className="text-red-500">Error loading products</p>}
+        {products && (
+          <div className="mt-4">
+            <h2 className="text-lg font-medium">Products:</h2>
+            <ul className="list-disc list-inside">
+              {products.map((product) => (
+                <li key={product.id}>{product.name}</li>
+              ))}
+            </ul>
+          </div>
+        )}
       </motion.div>
 
       <motion.div

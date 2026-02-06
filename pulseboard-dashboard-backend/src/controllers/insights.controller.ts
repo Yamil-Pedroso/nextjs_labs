@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
-import { generateInsights } from "../services/generateInsights";
+import { generateInsightsWithCache } from "../services/generateInsightsWithCache";
 
 export const getInsights = async (_req: Request, res: Response) => {
   try {
     // ⚠️ Mock de métricas por ahora
-    // Luego esto vendrá de DB / Stripe / Events
     const metrics = {
+      type: "revenue",
+      period: "last_30_days",
       current_period: {
         revenue: 12400,
         transactions: 98,
@@ -18,7 +19,7 @@ export const getInsights = async (_req: Request, res: Response) => {
       },
     };
 
-    const insights = await generateInsights(metrics);
+    const insights = await generateInsightsWithCache(metrics);
 
     res.json({ insights });
   } catch (error) {

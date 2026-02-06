@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { pool } from "../../config/db";
-import { generateInsights } from "../../services/generateInsights";
+import { generateInsightsWithCache } from "../../services/generateInsightsWithCache";
 import type { UsersSnapshot } from "../../types/users";
 
 export async function getUsersInsights(_req: Request, res: Response) {
@@ -76,7 +76,7 @@ export async function getUsersInsights(_req: Request, res: Response) {
       },
     };
 
-    const insights = await generateInsights(snapshot);
+    const insights = await generateInsightsWithCache(snapshot);
 
     res.json({
       snapshot,

@@ -1,68 +1,68 @@
+"use client";
+
 import {
-  UserIcon,
-  CreditCardIcon,
-  Cog6ToothIcon,
-  DocumentChartBarIcon,
+  CheckCircleIcon,
+  InformationCircleIcon,
+  ExclamationTriangleIcon,
 } from "@heroicons/react/24/outline";
+import { useActivityInsights } from "@/hooks/insights/useActivityInsights";
+import type { Insight } from "@/lib/insight-types";
 
-interface ActivityItem {
-  id: string;
-  title: string;
-  description: string;
-  time: string;
-  icon: React.ElementType;
-}
-
-const ACTIVITY: ActivityItem[] = [
+const ICON_MAP: Record<
+  Insight["type"],
   {
-    id: "1",
-    title: "New user registered",
-    description: "John Doe created a new account.",
-    time: "2 minutes ago",
-    icon: UserIcon,
+    icon: React.ElementType;
+    className: string;
+  }
+> = {
+  success: {
+    icon: CheckCircleIcon,
+    className: "text-emerald-500 bg-emerald-500/10",
   },
-  {
-    id: "2",
-    title: "Payment completed",
-    description: "Monthly subscription payment received.",
-    time: "1 hour ago",
-    icon: CreditCardIcon,
+  info: {
+    icon: InformationCircleIcon,
+    className: "text-blue-500 bg-blue-500/10",
   },
-  {
-    id: "3",
-    title: "Report generated",
-    description: "Revenue report exported as PDF.",
-    time: "Yesterday",
-    icon: DocumentChartBarIcon,
+  warning: {
+    icon: ExclamationTriangleIcon,
+    className: "text-amber-500 bg-amber-500/10",
   },
-  {
-    id: "4",
-    title: "Settings updated",
-    description: "Security preferences were changed.",
-    time: "2 days ago",
-    icon: Cog6ToothIcon,
-  },
-];
+};
 
 export default function ActivityPage() {
+  const { data: insights, isLoading, isError } = useActivityInsights();
+
   return (
     <section className="p-6 lg:p-8 space-y-8">
       {/* Header */}
       <div>
         <h1 className="text-2xl font-semibold">Activity</h1>
         <p className="mt-1 text-sm text-[rgb(var(--muted))]">
-          Recent actions and system events.
+          AI-generated insights based on recent product activity.
         </p>
       </div>
 
-      {/* Activity list */}
+      {/* States */}
+      {isLoading && (
+        <p className="text-sm text-[rgb(var(--muted))]">
+          Loading activity insights…
+        </p>
+      )}
+
+      {isError && (
+        <p className="text-sm text-red-500">
+          Failed to load activity insights.
+        </p>
+      )}
+
+      {/* Insights list */}
       <div className="space-y-4">
-        {ACTIVITY.map((item) => {
-          const Icon = item.icon;
+        {insights?.map((insight) => {
+          const { icon: Icon, className } = ICON_MAP[insight.type];
 
           return (
             <div
-              key={item.id}
+              key={insight.id}
               className="
                 flex items-start gap-4
                 rounded-xl border border-[rgb(var(--border))]
@@ -71,30 +71,30 @@ export default function ActivityPage() {
               "
             >
               <div
-                className="
+                className={`
                   flex h-10 w-10 items-center justify-center
-                  rounded-lg bg-[rgb(var(--primary))]/10
-                  text-[rgb(var(--primary))]
-                "
+                  rounded-lg
+                  ${className}
+                `}
               >
                 <Icon className="h-5 w-5" />
               </div>
 
-              <div className="flex-1">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-medium">{item.title}</h3>
-                  <span className="text-xs text-[rgb(var(--muted))]">
-                    {item.time}
-                  </span>
-                </div>
-
-                <p className="mt-1 text-sm text-[rgb(var(--muted))]">
-                  {item.description}
+              <div className="flex-1 space-y-1">
+                <h3 className="font-medium">{insight.title}</h3>
+                <p className="text-sm text-[rgb(var(--muted))]">
+                  {insight.description}
                 </p>
               </div>
             </div>
           );
         })}
+
+        {!isLoading && insights?.length === 0 && (
+          <p className="text-sm text-[rgb(var(--muted))]">
+            No activity insights available.
+          </p>
+        )}
       </div>
     </section>
   );

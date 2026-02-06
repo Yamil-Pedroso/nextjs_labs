@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { pool } from "../../config/db";
-import { generateInsights } from "../../services/generateInsights";
+import { generateInsightsWithCache } from "../../services/generateInsightsWithCache";
 
 export async function getRevenueInsights(_req: Request, res: Response) {
   try {
@@ -27,11 +27,12 @@ export async function getRevenueInsights(_req: Request, res: Response) {
     `);
 
     const snapshot = {
+      type: "revenue",
+      period: "last_30_days",
       current_period: {
         revenue: Number(current.rows[0].revenue),
         transactions: current.rows[0].transactions,
         failed_payments: current.rows[0].failed,
-        type: "revenue",
       },
       previous_period: {
         revenue: Number(previous.rows[0].revenue),
@@ -40,8 +41,7 @@ export async function getRevenueInsights(_req: Request, res: Response) {
       },
     };
 
-    // 🤖 IA analiza el snapshot
-    const insights = await generateInsights(snapshot);
+    const insights = await generateInsightsWithCache(snapshot);
 
     res.json({
       snapshot,
