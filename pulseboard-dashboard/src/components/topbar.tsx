@@ -13,7 +13,11 @@ const notificationsHardcoded = [
   { id: 3, message: "New comment on your post" },
 ];
 
-export function Topbar() {
+export function Topbar({
+  children,
+}: {
+  children?: React.ReactNode;
+}) {
   const [click, setClick] = useState(false);
   const { user } = useAuth();
 
@@ -45,6 +49,7 @@ export function Topbar() {
     <header className="flex items-center justify-between border-b border-[rgb(var(--border))] bg-[rgb(var(--card))] px-6 py-4">
       {/* Left */}
       <div className="flex items-center gap-4">
+        {children}
         <h1 className="text-lg font-semibold text-[rgb(var(--text))]">
           Overview
         </h1>
