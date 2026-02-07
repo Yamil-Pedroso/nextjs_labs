@@ -3,6 +3,13 @@ import { pool } from "../../config/db";
 import { generateInsightsWithCache } from "../../services/generateInsightsWithCache";
 import type { TransactionsSnapshot } from "../../types/transactions";
 
+type TransactionsAggregateRow = {
+  total: string;
+  success: string;
+  failed: string;
+};
+
+
 export async function getTransactionsInsights(_req: Request, res: Response) {
   try {
     // 🔹 CURRENT PERIOD (last 30 days)
@@ -16,9 +23,11 @@ export async function getTransactionsInsights(_req: Request, res: Response) {
       WHERE created_at >= NOW() - INTERVAL '30 days'
     `);
 
-    const currentTotal = Number(current.rows[0].total);
-    const currentSuccess = Number(current.rows[0].success);
-    const currentFailed = Number(current.rows[0].failed);
+    const currentRow = current.rows[0] as TransactionsAggregateRow;
+
+    const currentTotal = Number(currentRow.total);
+    const currentSuccess = Number(currentRow.success);
+    const currentFailed = Number(currentRow.failed);
     const currentSuccessRate =
       currentTotal > 0 ? Number((currentSuccess / currentTotal).toFixed(2)) : 0;
 
@@ -35,9 +44,11 @@ export async function getTransactionsInsights(_req: Request, res: Response) {
         AND NOW() - INTERVAL '30 days'
     `);
 
-    const previousTotal = Number(previous.rows[0].total);
-    const previousSuccess = Number(previous.rows[0].success);
-    const previousFailed = Number(previous.rows[0].failed);
+    const previousRow = previous.rows[0] as TransactionsAggregateRow
+
+    const previousTotal = Number(previousRow.total);
+    const previousSuccess = Number(previousRow.success);
+    const previousFailed = Number(previousRow.failed);
     const previousSuccessRate =
       previousTotal > 0
         ? Number((previousSuccess / previousTotal).toFixed(2))
