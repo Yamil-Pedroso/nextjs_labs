@@ -2,9 +2,19 @@ import { Request, Response } from "express";
 import { pool } from "../../config/db";
 import { Transaction } from "../../models/transaction.model";
 
+// Interfaz para el resultado de la query
+interface TransactionRow {
+  id: string;
+  email: string;
+  amount: number;
+  currency: string;
+  status: string;
+  created_at: Date;
+}
+
 export async function getTransactionsReport(_req: Request, res: Response) {
   try {
-    const result = await pool.query(`
+    const result = await pool.query<TransactionRow>(`
       SELECT
         t.id,
         u.email,

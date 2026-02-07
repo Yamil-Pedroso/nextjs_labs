@@ -13,6 +13,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/fast-json-stable-stringify": "^2.0.0",
+    "@types/node": "^25.2.0",
     "body-parser": "^2.2.2",
     "cors": "^2.8.6",
     "dotenv": "^17.2.3",
@@ -20,15 +22,12 @@
     "fast-json-stable-stringify": "^2.1.0",
     "openai": "^6.17.0",
     "pg": "^8.18.0",
-    "stripe": "^20.3.1",
-
-    "@types/node": "^25.2.0",
-    "@types/pg": "^8.16.0",
-    "@types/fast-json-stable-stringify": "^2.0.0"
+    "stripe": "^20.3.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
+    "@types/pg": "^8.16.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.3"
   }
