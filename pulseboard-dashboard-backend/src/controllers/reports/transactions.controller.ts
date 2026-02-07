@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { pool } from "../../config/db";
-import { Transaction } from "../../models/transaction.model";
+import { Transaction, TransactionStatus } from "../../models/transaction.model";
 
 // Interfaz para el resultado de la query
 interface TransactionRow {
@@ -8,7 +8,7 @@ interface TransactionRow {
   email: string;
   amount: number;
   currency: string;
-  status: string;
+  status: TransactionStatus;
   created_at: Date;
 }
 
@@ -39,7 +39,7 @@ export async function getTransactionsReport(_req: Request, res: Response) {
           .join(" "),
         email: row.email,
         amount: row.amount,
-        currency: row.currency,
+        currency: row.currency as "USD" | "EUR" | "CHF",
         status: row.status,
         date: row.created_at.toISOString().split("T")[0],
       };
