@@ -54,8 +54,23 @@ export function ProjectStatusModal() {
           This project is currently under active development.
           <br />
           <br />
-          Feel free to explore the features that have already been built and get
-          a preview of what’s coming next.
+          All{" "}
+          <strong className="text-[rgb(var(--primary))]">
+            analytics and insights
+          </strong>{" "}
+          are generated and analyzed by an{" "}
+          <strong className="text-[rgb(var(--primary))]">
+            AI-powered system
+          </strong>
+          , designed to translate raw product data into clear, actionable
+          signals.
+          <br />
+          <br />
+          Feel free to explore{" "}
+          <strong className="text-[rgb(var(--primary))]">
+            the features
+          </strong>{" "}
+          that have already been built and get a preview of what’s coming next.
         </p>
 
         <div className="mt-6 flex justify-end">
